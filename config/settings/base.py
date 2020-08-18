@@ -41,9 +41,21 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+# DATABASES = {
+#     "default": env.db("DATABASE_URL", default="postgres://localhost/beerhunter")
+# }
+
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres://localhost/beerhunter")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'beerhuntnewdb',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
