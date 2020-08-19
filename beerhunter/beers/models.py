@@ -3,6 +3,8 @@ from django.db import models
 from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
 
+from beerhunter.breweries.models import Brewery
+
 
 class Beer(TimeStampedModel):
     title = models.CharField("Title of Beer", max_length=255)
@@ -13,6 +15,7 @@ class Beer(TimeStampedModel):
         populate_from="title",
     )
     description = models.TextField("Description", blank=True)
+    brewery = models.ForeignKey(Brewery, on_delete=models.CASCADE, related_name="brewered_by", null=True)
 
     og = models.FloatField(null=True, blank=True)
     abv = models.FloatField(null=True, blank=True)
