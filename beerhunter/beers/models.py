@@ -13,3 +13,10 @@ class Beer(TimeStampedModel):
         populate_from="title",
     )
     description = models.TextField("Description", blank=True)
+
+    og = models.FloatField(null=True, blank=True)
+    abv = models.FloatField(null=True, blank=True)
+    ibu = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
