@@ -20,3 +20,7 @@ class Beer(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Beer"
+        verbose_name_plural = "Beers"
