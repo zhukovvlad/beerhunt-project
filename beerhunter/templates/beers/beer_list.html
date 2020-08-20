@@ -7,7 +7,7 @@
 
     <ul>
         {% for beer in beer_list %}
-            <li><a href="#TODO">{{ beer.title }}</a></li>
+            <li><a href="{% url 'beers:BeerDetail' beer.slug %}">{{ beer.title }}</a></li>
         {% endfor %}
     </ul>
 {% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Beer: {{ beer.title }}{% endblock title %}Beer: {{ beer.title }}
+
+{% block content %}
+    <h2>
+        {{ beer.title }}
+    </h2>
+
+    {% if beer.description %}
+        <p>{{ beer.description }}</p>
+    {% endif %}
+{% endblock content %}
