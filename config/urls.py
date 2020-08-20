@@ -16,6 +16,10 @@ urlpatterns = [
     path("users/", include("beerhunter.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path(
+        'beers/',
+        include('beerhunter.beers.urls', namespace='beers')
+    )
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

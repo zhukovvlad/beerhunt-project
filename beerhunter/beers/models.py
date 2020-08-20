@@ -13,9 +13,10 @@ class Beer(TimeStampedModel):
         unique=True,
         always_update=False,
         populate_from="title",
+        allow_unicode=True,
     )
     description = models.TextField("Description", blank=True)
-    brewery = models.ForeignKey(Brewery, on_delete=models.CASCADE, related_name="brewered_by", null=True)
+    brewery = models.ForeignKey(Brewery, on_delete=models.CASCADE, related_name="brewered_by", null=True, blank=True)
 
     og = models.FloatField(null=True, blank=True)
     abv = models.FloatField(null=True, blank=True)
