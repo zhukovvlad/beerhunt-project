@@ -2,6 +2,7 @@ from django.db import models
 
 from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
+from django_countries.fields import CountryField
 from django.utils.translation import gettext as _
 
 
@@ -12,6 +13,9 @@ class Brewery(TimeStampedModel):
         unique=True,
         always_update=False,
         populate_from='title'
+    )
+    country_of_origin = CountryField(
+        "Country of Origin", blank=True
     )
 
     def __str__(self):
