@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Brewery: {{ brewery.title }}{% endblock title %}
+
+{% block content %}
+    <h2>{{ brewery.title }}</h2>
+    <p>{{ brewery.country_of_origin.name }}
+    <img src="{{ brewery.country_of_origin.flag }}" />
+    </p>
+{% endblock content %}

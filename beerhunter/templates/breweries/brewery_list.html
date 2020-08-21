@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Beerhunter: Brewery List{% endblock title %}
+
+{% block content %}
+    <h2>Brewery List</h2>
+
+    <ul>
+        {% for brewery in brewery_list %}
+            <li><a href="{% url 'breweries:BreweryDetail' brewery.slug %}">{{brewery.title}}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
