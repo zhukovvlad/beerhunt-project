@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
@@ -20,6 +21,9 @@ class Brewery(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("breweries:BreweryDetail", kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = "Brewery"
