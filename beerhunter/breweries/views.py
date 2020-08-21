@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
-# Create your views here.
+from .models import Brewery
+
+
+class BreweryListView(ListView):
+    model = Brewery
+
+
+class BreweryDetailView(DetailView):
+    model = Brewery
