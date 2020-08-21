@@ -1,14 +1,12 @@
 import pytest
 
-from ..models import Beer
+# from ..models import Beer
+from .factories import BeerFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test__sts__():
-    beer = Beer.objects.create(
-        title="Stracchino",
-        description="Semi-sweet cheese that goes well with starches.",
-    )
-    assert beer.__str__() == "Stracchino"
-    assert str(beer) == "Stracchino"
+def test__str__():
+    beer = BeerFactory()
+    assert beer.__str__() == beer.title
+    assert str(beer) == beer.title
