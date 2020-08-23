@@ -1,6 +1,8 @@
 from django.db import models
+from django.urls import reverse
 
 from autoslug import AutoSlugField
+from django.conf import settings
 from model_utils.models import TimeStampedModel
 
 from beerhunter.breweries.models import Brewery
@@ -22,8 +24,17 @@ class Beer(TimeStampedModel):
     abv = models.FloatField(null=True, blank=True)
     ibu = models.FloatField(null=True, blank=True)
 
+    hunter = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.SET_NULL
+    )
+
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("beers:BeerDetail", kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = "Beer"
