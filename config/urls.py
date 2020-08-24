@@ -23,7 +23,11 @@ urlpatterns = [
     path(
         'breweries/',
         include('beerhunter.breweries.urls', namespace='breweries')
-    )
+    ),
+    path(
+        'hops/',
+        include('beerhunter.hops.urls', namespace='hops')
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

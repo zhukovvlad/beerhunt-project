@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Hop List{% endblock title %}
+
+{% block content %}
+    <h2>Hop List</h2>
+
+    <ul>
+        {% for hop in hop_list %}
+            <li><a href="{{ hop.get_absolute_url }}">{{ hop.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

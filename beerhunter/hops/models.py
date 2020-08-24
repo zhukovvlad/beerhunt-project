@@ -2,6 +2,7 @@ from django.db import models
 
 from autoslug import AutoSlugField
 from django_countries.fields import CountryField
+from django.urls import reverse
 from model_utils.models import TimeStampedModel
 
 
@@ -45,6 +46,9 @@ class Hop(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("hops:HopDetail", kwargs={"slug": self.slug})
 
     class Meta:
         ordering = (

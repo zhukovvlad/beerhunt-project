@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
-# Create your views here.
+from .models import Hop
+
+
+class HopListView(ListView):
+    model = Hop
+    template_name = "hops/hop_list.html"
+
+
+class HopDetailView(DetailView):
+    model = Hop
+    template_name = "hops/hop_detail.html"
