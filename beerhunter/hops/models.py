@@ -1,6 +1,7 @@
 from django.db import models
 
 from autoslug import AutoSlugField
+from django_countries.fields import CountryField
 from model_utils.models import TimeStampedModel
 
 
@@ -23,6 +24,9 @@ class Hop(TimeStampedModel):
         unique=True,
         always_update=False,
         populate_from='title'
+    )
+    country_of_origin = CountryField(
+        "Country of Origin", blank=True
     )
     description = models.TextField("Description", blank=True)
 
