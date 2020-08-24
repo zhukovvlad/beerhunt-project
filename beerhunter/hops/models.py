@@ -37,6 +37,12 @@ class Hop(TimeStampedModel):
     oil_min = models.FloatField(null=True, blank=True)
     oil_max = models.FloatField(null=True, blank=True)
 
+    aroma_profile = models.ManyToManyField(
+        to=AromaProfile,
+        related_name='aroma_profile',
+        blank=True
+    )
+
     def __str__(self):
         return self.title
 
@@ -44,3 +50,5 @@ class Hop(TimeStampedModel):
         ordering = (
             'title',
         )
+        verbose_name = "Hop"
+        verbose_name_plural = "Hops"
