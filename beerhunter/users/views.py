@@ -36,6 +36,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         messages.add_message(
             self.request, messages.INFO, _("Infos successfully updated")
         )
+        storage = messages.get_messages(self.request)
+        for message in storage:
+            print(message)
         return super().form_valid(form)
 
 
