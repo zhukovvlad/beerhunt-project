@@ -10,4 +10,9 @@
     {% if beer.description %}
         <p>{{ beer.description }}</p>
     {% endif %}
+
+    <br />
+    <h3>
+        Submitted by <a href="{% url 'users:detail' beer.hunter.username %}">{{ beer.hunter.username }}</a>
+    </h3>
 {% endblock content %}

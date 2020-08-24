@@ -24,3 +24,7 @@ class BeerCreateView(LoginRequiredMixin, CreateView):
         'abv',
         'ibu'
     ]
+
+    def form_valid(self, form):
+        form.instance.hunter = self.request.user
+        return super().form_valid(form)
