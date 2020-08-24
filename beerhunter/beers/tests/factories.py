@@ -6,6 +6,7 @@ import factory.fuzzy
 from ..models import Beer
 # from beerhunter.breweries.models import Brewery
 from beerhunter.breweries.tests.factories import BreweryFactory
+from beerhunter.users.tests.factories import UserFactory
 
 
 class BeerFactory(factory.django.DjangoModelFactory):
@@ -15,6 +16,7 @@ class BeerFactory(factory.django.DjangoModelFactory):
         'paragraph', nb_sentences=3, variable_nb_sentences=True
     )
     brewery = factory.SubFactory(BreweryFactory)
+    hunter = factory.SubFactory(UserFactory)
     # brewery = factory.Iterator(Brewery.objects.all())
     og = factory.fuzzy.FuzzyFloat(10.0, 25.0)
     ibu = factory.fuzzy.FuzzyFloat(0.0, 100.0)
