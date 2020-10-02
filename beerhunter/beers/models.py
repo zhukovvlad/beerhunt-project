@@ -22,7 +22,7 @@ def beer_directory_path_with_uuid(instance, filename):
 
 
 class Beer(TimeStampedModel):
-    title = models.CharField("Title of Beer", max_length=255)
+    title = models.CharField("Title of Beer", max_length=255, db_index=True)
     slug = AutoSlugField(
         "Beer Slug",
         unique=True,
@@ -30,14 +30,30 @@ class Beer(TimeStampedModel):
         populate_from="title",
         allow_unicode=True,
     )
+    version = models.CharField(max_length=140, blank=True, db_index=True)
     description = models.TextField("Description", blank=True)
-    brewery = models.ForeignKey(Brewery, on_delete=models.CASCADE, related_name="brewered_by", null=True, blank=True)
+    style = models.ForeignKey(
+        to='Style',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    brewery = models.ForeignKey(
+        Brewery,
+        on_delete=models.SET_NULL,
+        related_name="brewered_by",
+        null=True
+    )
 
     og = models.FloatField(null=True, blank=True)
     abv = models.FloatField(null=True, blank=True)
     ibu = models.FloatField(null=True, blank=True)
 
-    image = models.ImageField(upload_to=beer_directory_path_with_uuid)
+    image = models.ImageField(
+        upload_to=beer_directory_path_with_uuid,
+        default='images/default/default_beer.png',
+        blank=True
+    )
 
     image_icon = ImageSpecField(
         source='image',
@@ -68,3 +84,15 @@ class Beer(TimeStampedModel):
     class Meta:
         verbose_name = "Beer"
         verbose_name_plural = "Beers"
+
+
+class Style(models.Model):
+    short_title = models.CharField(max_length=40, null=True, blank=True)
+    title = models.CharField(max_length=140)
+    description = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('short_title', )
+
+    def __str__(self):
+        return self.short_title
