@@ -35,13 +35,13 @@ class Beer(TimeStampedModel):
     style = models.ForeignKey(
         to='Style',
         on_delete=models.SET_NULL,
-        null=True,
-        blank=True
+        related_name="beers_with_style",
+        null=True
     )
     brewery = models.ForeignKey(
         Brewery,
         on_delete=models.SET_NULL,
-        related_name="brewered_by",
+        related_name="brewered",
         null=True
     )
 
