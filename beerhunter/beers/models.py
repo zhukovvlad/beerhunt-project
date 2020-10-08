@@ -6,7 +6,9 @@ from django.utils.timezone import now as timezone_now
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from autoslug import AutoSlugField
+import django.contrib.auth
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from model_utils.models import TimeStampedModel
 from uuid import uuid4
 
@@ -114,3 +116,41 @@ class Style(models.Model):
 
     def __str__(self):
         return self.short_title
+
+
+class VoteManager(models.Manager):
+    def get_vote_or_unsaved_blank_vote(self, beer, user):
+        try:
+            return Vote.objects.get(
+                beer=beer,
+                user=user)
+        except ObjectDoesNotExist:
+            return Vote(
+                beer=beer,
+                user=user)
+
+
+class Vote(models.Model):
+    UP = 1
+    DOWN = -1
+    VALUE_CHOICES = (
+        (UP, "UpVote"),
+        (DOWN, "DownVote")
+    )
+    value = models.SmallIntegerField(
+        choices=VALUE_CHOICES,
+    )
+
+    user = models.ForeignKey(
+        django.contrib.auth.get_user_model(),
+        on_delete=models.CASCADE
+        )
+
+    beer = models.ForeignKey(Beer, on_delete=models.CASCADE)
+
+    voted_on = models.DateTimeField(auto_now=True)
+
+    objects = VoteManager()
+
+    class Meta:
+        unique_together = ('user', 'beer', )
