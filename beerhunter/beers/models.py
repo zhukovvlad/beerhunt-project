@@ -154,3 +154,16 @@ class Vote(models.Model):
 
     class Meta:
         unique_together = ('user', 'beer', )
+
+
+class BeerComment(TimeStampedModel):
+    beer = models.ForeignKey(Beer, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True)
+    title = models.CharField(max_length=80)
+    body = models.TextField()
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.author, self.beer)
