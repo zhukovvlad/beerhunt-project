@@ -21,6 +21,16 @@ def beer_directory_path_with_uuid(instance, filename):
     return f"{now:%Y/%m}/{uuid_for_url}{instance.pk}{extension}"
 
 
+class BeerManager(models.Manager):
+
+    def all_with_related_instances(self):
+        qs = self.get_queryset()
+        qs = qs.select_related(
+            'brewery', 'style'
+        )
+        return qs
+
+
 class Beer(TimeStampedModel):
     title = models.CharField("Title of Beer", max_length=255, db_index=True)
     slug = AutoSlugField(
@@ -75,6 +85,8 @@ class Beer(TimeStampedModel):
         on_delete=models.SET_NULL
     )
 
+    objects = BeerManager()
+
     def __str__(self):
         return self.title
 
@@ -82,6 +94,12 @@ class Beer(TimeStampedModel):
         return reverse("beers:BeerDetail", kwargs={"slug": self.slug})
 
     class Meta:
+        ordering = ('title', )
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'version', 'brewery'],
+                name='beer_constraint')
+        ]
         verbose_name = "Beer"
         verbose_name_plural = "Beers"
 
