@@ -1,20 +1,108 @@
 {% extends 'base.html' %}
 
-{% block title %}Beer: {{ beer.title }}{% endblock title %}
+{% block title %}
+	{{ object.title_for_render }} - {{ block.super }}
+{% endblock %}
 
 {% block content %}
-    <h2>
-        {{ beer.title }}
-    </h2>
-
-    <img src="{{beer.icon.url}}">
-
-    {% if beer.description %}
-        <p>{{ beer.description }}</p>
-    {% endif %}
-
-    <br />
-    <h3>
-        Submitted by <a href="{% url 'users:detail' beer.hunter.username %}">{{ beer.hunter.username }}</a>
-    </h3>
-{% endblock content %}
+	<div class="row">
+		<div class="col-2 align-self-center text-center">
+		<a href="{{ object.image.url }}" target="_blank">
+			<img src="{{ object.image.url }}" class="img-fluid" alt="{{ object.title }}">
+		</a>
+		</div>
+		<div class="col-6">
+			<h1>
+				{{ object.title_for_render }}
+			</h1>
+			<h6>
+				Hunted by: {{ object.hunter }}
+			</h6>
+			{% if object.brewery %}
+				<p class="h6">
+					Brewed by: <a href="{% url 'brewery:BreweryDetail' slug=object.brewery.slug %}">{{ object.brewery }}</a> (<span class="text-muted">{{ object.brewery.country_of_origin.name }}</span>)
+				</p>
+			{% else %}
+				<p class="h6">
+					Brewed by: Unknown master</a>
+				</p>
+			{% endif %}
+			<p class="h6">
+			Style: {{ object.style }}
+			</p>
+			<ul class="list-group list-group-horizontal">
+				<li class="list-group-item"><span class="badge badge-success">OG — {{ object.og }}%</span></li>
+				<li class="list-group-item"><span class="badge badge-success">ABV — {{ object.abv }}%</span></li>
+				<li class="list-group-item"><span class="badge badge-success">IBU — {{object.ibu}}</span></li>
+			</ul>
+			{% if object.description %}
+				<p>
+					{{ object.description }}
+				</p>
+			{% endif %}
+			<!--
+			{% for comment in object.comments.all %}
+				{{ comment.title }}
+				{{ comment.body }}
+			{% endfor %}-->
+		</div>
+		<div class="col-4">
+			<div>
+				<h2>
+					Score: {{ object.score|default_if_none:"TBD" }}
+				</h2>
+				Your last vote is: {% if vote.value == 1 %} UP {% elif vote.value == -1 %} DOWN {% else %} None {% endif %}
+			</div>
+			{% if vote_form %}
+				<form method="post" action="{{ vote_form_url }}" id="voteForm">
+					{% csrf_token %}
+					{% for vote in vote_form.value %}
+						<label class="btn btn-block btn-primary" for="{{ vote.id_for_label }}">
+							{{ vote.choice_label }}
+							{{ vote.tag }}
+						</label>
+						<!--<div class="form-check btn btn-primary">
+						{{ vote }}
+						</div>-->
+					{% endfor %}
+					{{ vote_form.beer }}
+					{{ vote_form.user }}
+					<!--<button class="btn btn-primary">Vote</button>-->
+				</form>
+			{% else %}
+				<p>LogIn to vote for this beer</p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-8">
+			<h3>
+			Used hops:
+			</h3>
+		  <ul class="list-group list-group-horizontal">
+			  {% for hop in object.hops.all %}
+				<li class="list-group-item"><a href="{% url 'hop:HopDetail' pk=hop.id %}">{{ hop }}</a></li>
+			{% empty %}
+				<li class="list-group-item">Hops are unknown.</li>
+			{% endfor %}
+		  </ul>
+		</div>
+	</div>
+	{% for comment in object.comments.all %}
+		<div class="media">
+			<div class="media-body">
+				<h5 class="mt-0">{{ comment.title }}</h5>
+				{{ comment.body }}
+				{{ comment.created }}
+			</div>
+		</div>
+	{% endfor %}
+	{% if beer_comment_form %}
+	Add Comment:
+		<form method="post" action="{% url 'beer:BeerComment' slug=object.slug %}">
+			{% csrf_token %}
+			{{ beer_comment_form.as_p }}
+			<button class="btn btn-primary">Comment</button>
+		</form>
+	{% endif %}
+{% endblock %}

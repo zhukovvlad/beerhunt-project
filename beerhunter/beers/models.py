@@ -1,5 +1,6 @@
 import os
 from django.db import models
+from django.db.models.aggregates import Sum
 from django.urls import reverse
 from django.utils.timezone import now as timezone_now
 
@@ -30,6 +31,11 @@ class BeerManager(models.Manager):
         qs = qs.select_related(
             'brewery', 'style'
         )
+        return qs
+
+    def all_with_related_instances_and_score(self):
+        qs = self.all_with_related_instances()
+        qs = qs.annotate(score=Sum('vote__value'))
         return qs
 
 

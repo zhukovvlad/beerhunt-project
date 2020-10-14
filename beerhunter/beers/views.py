@@ -11,7 +11,7 @@ from .forms import VoteForm
 class BeerListView(ListView):
     paginate_by = 10
     # model = Beer
-    queryset = Beer.objects.all_with_related_instances()
+    queryset = Beer.objects.all_with_related_instances_and_score()
 
     context_object_name = 'beer_list'
 
@@ -24,7 +24,7 @@ class BeerListView(ListView):
 
 
 class BeerDetailView(DetailView):
-    queryset = Beer.objects.all_with_related_instances()
+    queryset = Beer.objects.all_with_related_instances_and_score()
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
