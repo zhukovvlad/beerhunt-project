@@ -95,6 +95,13 @@ class Beer(TimeStampedModel):
 
     objects = BeerManager()
 
+    def title_for_render(self):
+        title_list = self.title.split(' ')
+        title_list = (x.capitalize() for x in title_list)
+        title_list = list(title_list)
+        title_list = ' '.join(str(x) for x in title_list)
+        return title_list
+
     def __str__(self):
         return self.title
 

@@ -3,8 +3,63 @@
 {% block title %}Brewery: {{ brewery.title }}{% endblock title %}
 
 {% block content %}
-    <h2>{{ brewery.title }}</h2>
+    <h1>
+        {{ brewery.title }} - Total Rating {{ rating }}
+    </h1>
     <p>{{ brewery.country_of_origin.name }}
     <img src="{{ brewery.country_of_origin.flag }}" />
     </p>
+    <h2>
+        Brewered beers are:
+    </h2>
+    <ul class="list-group col">
+        {% for beer in connected_beers %}
+            <li class="custom-list-bg row mt-3 pt-2 pb-2">
+					<div class="col-5" style="max-width: 100px">
+						<img src="{{ beer.image_icon.url }}" class="img-fluid" alt="{{ beer }}">
+					</div>
+					<div class="col-4">
+						{% if beer.version %}
+							<a href="{{ beer.get_absolute_url }}">
+								<h4 class="mb-1">
+									{{ beer|upper }}
+								</h4>
+								<p class="h6">
+									{{ beer.version }}
+								</p>
+							</a>
+						{% else %}
+							<a href="{{ beer.get_absolute_url }}">
+								<h4>
+									{{ beer|upper }}
+								</h4>
+							</a>
+						{% endif %}
+						<div class="mt-1">Style: <span class="font-weight-bold">{{ beer.style }}</span></div>
+						<div class="mt-1">Brewed by: <span class="font-weight-bold"><a href="{% url 'breweries:BreweryDetail' slug=beer.brewery.slug %}">{{ beer.brewery }}</a></span></div>
+						<div class="row mt-1">
+							<div class="col">OG: <span class="font-weight-bold">{{ beer.og }}%</span></div>
+							<div class="col">ABV: <span class="font-weight-bold">{{ beer.abv }}%</span></div>
+							<div class="col">IBU: <span class="font-weight-bold">{{ beer.ibu }}</span></div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mt-1">
+							Total score: {{ beer.score|default_if_none:"No votes yet" }}
+						</div>
+						<div class="mt-1">Hops: 
+						{% if beer.hops.count > 0 %}
+							<ul class="custom-hops-range">
+							{% for hop in beer.hops.all %}
+									<li>{{ hop }}</li>
+							{% endfor %}
+							</ul>
+						{% else %}
+								<span class="font-weight-bold">hops are unknown</span>
+						{% endif %}
+						</div>
+					</div>
+				</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

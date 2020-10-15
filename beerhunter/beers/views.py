@@ -72,6 +72,7 @@ class BeerCreateView(LoginRequiredMixin, CreateView):
         'title',
         'description',
         'brewery',
+        'image',
         'og',
         'abv',
         'ibu'
