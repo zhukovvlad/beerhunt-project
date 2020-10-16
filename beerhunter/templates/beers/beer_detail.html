@@ -57,7 +57,7 @@
 				<form method="post" action="{{ vote_form_url }}" id="voteForm">
 					{% csrf_token %}
 					{% for vote in vote_form.value %}
-						<label class="btn btn-block btn-primary" for="{{ vote.id_for_label }}">
+						<label class="btn btn-block btn-primary" style="cursor: pointer" for="{{ vote.id_for_label }}">
 							{{ vote.choice_label }}
 							{{ vote.tag }}
 						</label>
