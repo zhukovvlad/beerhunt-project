@@ -16,7 +16,7 @@
 				{{ object.title_for_render }}
 			</h1>
 			<h6>
-				Hunted by: {{ object.hunter }}
+				Hunted by: <a href="{{ object.hunter.get_absolute_url }}">{{ object.hunter }}</a>
 			</h6>
 			{% if object.brewery %}
 				<p class="h6">

@@ -18,6 +18,12 @@
       {% endif %}
     </div>
   </div>
+  <p>{{ connect }}</p>
+  <ul>
+  {% for beer in object.hunted.all %}
+    <li><a href="{{ beer.get_absolute_url }}">{{ beer }}</a></li>
+  {% endfor %}
+  </ul>
 
 {% if object == request.user %}
 <!-- Action buttons -->

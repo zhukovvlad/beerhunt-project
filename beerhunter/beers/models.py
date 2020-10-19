@@ -88,8 +88,9 @@ class Beer(TimeStampedModel):
     )
 
     hunter = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        django.contrib.auth.get_user_model(),
         null=True,
+        related_name='hunted',
         on_delete=models.SET_NULL
     )
 
