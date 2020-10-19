@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}Hop: {{ hop.title }}{% endblock title %}
 
@@ -6,8 +7,63 @@
     <h2>
         {{ hop.title }}
     </h2>
+    <h3>
+        {% trans "Characteristics" %}
+    </h3>
+    {% if hop.alpha_min or hop.alpha_max or hop.beta_min or hop.beta_max or hop.oil_min or hop.oil_max %}
+        <ul class="list-group list-group-horizontal">
+            {% if hop.alpha_min %}
+                <li class="list-group-item">Alpha min — {{ hop.alpha_min }}%</li>
+            {% endif %}
+            {% if hop.alpha_max %}
+                <li class="list-group-item">Alpha max — {{ hop.alpha_max }}%</li>
+            {% endif %}
+            {% if hop.beta_min %}
+                <li class="list-group-item">Beta min — {{ hop.beta_min }}%</li>
+            {% endif %}
+            {% if hop.beta_max %}
+                <li class="list-group-item">Beta max — {{ hop.beta_max }}%</li>
+            {% endif %}
+            {% if hop.oil_min %}
+                <li class="list-group-item">Oil min — {{ hop.oil_min }}mL/100g</li>
+            {% endif %}
+            {% if hop.oil_max %}
+                <li class="list-group-item">Oil max — {{ hop.oil_max }}mL/100g</li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    {% if object.aroma_profile %}
+		<h3>
+    	Aroma Profile:
+		</h3>
+		<ul class="list-group list-group-horizontal">
+  	{% for profile in object.aroma_profile.all %}
+    	<li class="list-group-item">
+        {{ profile }}
+    	</li>
+    {% empty %}
+
+    {% endfor %}
+  	</ul>
+		<br>
+	{% endif %}
 
     {% if hop.description %}
         <p>{{ hop.description }}</p>
     {% endif %}
+
+    <h3>
+    Brewered beers:
+	</h3>
+    <ul class="list-group">
+  	    {% for beer in object.brewed_beers.all %}
+        	<li class="list-group-item">
+            <a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }}</a>. Brewered by {{ beer.brewery }}
+            <p>{{ beer.score }}</p>
+        	</li>
+        {% empty %}
+        	<li class="list-group-item">Beers are unknown.</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

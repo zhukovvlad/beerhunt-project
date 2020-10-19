@@ -10,6 +10,8 @@ class HopAdmin(admin.ModelAdmin):
         'country_of_origin',
         'alpha_min',
         'alpha_max',
+        'beta_min',
+        'beta_max',
     )
 
 

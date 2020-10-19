@@ -14,6 +14,7 @@ from model_utils.models import TimeStampedModel
 from uuid import uuid4
 
 from beerhunter.breweries.models import Brewery
+from beerhunter.hops.models import Hop
 
 
 def beer_directory_path_with_uuid(instance, filename):
@@ -66,6 +67,12 @@ class Beer(TimeStampedModel):
     og = models.FloatField(null=True, blank=True)
     abv = models.FloatField(null=True, blank=True)
     ibu = models.FloatField(null=True, blank=True)
+
+    hops = models.ManyToManyField(
+        Hop,
+        related_name='brewed_beers',
+        blank=True
+    )
 
     image = models.ImageField(
         upload_to=beer_directory_path_with_uuid,
