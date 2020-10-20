@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
+from beerhunter.beers.models import Beer
+
 User = get_user_model()
 
 
@@ -13,6 +15,22 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_beers = Beer.objects.all_with_related_instances_and_score()
+        user_beers = user_beers.filter(hunter=self.request.user.id)
+        user_beers = user_beers.order_by('-score')
+
+        total_score = 0
+        for beer in user_beers:
+            if beer.score:
+                total_score += beer.score
+
+        context["user_beers"] = user_beers
+        context["total_score"] = total_score
+        context["total_count"] = user_beers.count()
+        return context
 
 
 user_detail_view = UserDetailView.as_view()
