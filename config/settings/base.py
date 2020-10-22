@@ -90,7 +90,8 @@ LOCAL_APPS = [
     "beerhunter.users.apps.UsersConfig",
     "beerhunter.beers.apps.BeersConfig",
     "beerhunter.breweries.apps.BreweriesConfig",
-    "beerhunter.hops.apps.HopsConfig"
+    "beerhunter.hops.apps.HopsConfig",
+    "beerhunter.my_syte.apps.MySyteConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
