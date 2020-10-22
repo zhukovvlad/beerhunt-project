@@ -80,7 +80,7 @@
 			Used hops:
 			</h3>
 		  <ul class="list-group list-group-horizontal">
-			  {% for hop in object.hops.all %}
+			{% for hop in object.hops.all %}
 				<li class="list-group-item"><a href="{{ hop.get_absolute_url }}">{{ hop }}</a></li>
 			{% empty %}
 				<li class="list-group-item">Hops are unknown.</li>
