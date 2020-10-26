@@ -6,6 +6,12 @@ from django.urls import reverse
 from model_utils.models import TimeStampedModel
 
 
+class HopManager(models.Manager):
+    def all_with_prefetch_beers(self):
+        qs = self.get_queryset()
+        return qs.prefetch_related('brewed_beers')
+
+
 class AromaProfile(models.Model):
     title = models.CharField(max_length=100)
 
@@ -43,6 +49,8 @@ class Hop(TimeStampedModel):
         related_name='aroma_profile',
         blank=True
     )
+
+    objects = HopManager()
 
     def __str__(self):
         return self.title
