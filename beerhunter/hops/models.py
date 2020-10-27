@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.aggregates import Count
 
 from autoslug import AutoSlugField
 from django_countries.fields import CountryField
@@ -10,6 +11,11 @@ class HopManager(models.Manager):
     def all_with_prefetch_beers(self):
         qs = self.get_queryset()
         return qs.prefetch_related('brewed_beers')
+
+    def all_with_related_instances_and_score(self):
+        qs = self.all_with_related_instances()
+        qs = qs.annotate(score=Count('beer'))
+        return qs
 
 
 class AromaProfile(models.Model):
