@@ -36,8 +36,6 @@
 
 </div>
 <!-- End Action buttons -->
-{% endif %}
-
 
 </div>
 
@@ -67,5 +65,33 @@
             </div>
         {% endfor %}
     </div>
+{% else %}
+  {% if not total_count %}
+    <p>This user added no beer yet.</p>
+  {% else %}
+    <p>This user added {{ total_count }} beer{% if total_count > 1 %}s{% endif %} with total score {{ total_score }}.</p>
+  {% endif %}
+  <div class="row">
+        {% for beer in user_beers %}
+            <div class="card col-sm-6">
+                <!--<img src="{{beer.image.url}}" class="card-img-top" alt="{{ beer }}">-->
+                <div class="card-body">
+                    {% if beer.version %}
+                        <h5 class="card-title"><a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }} - {{ beer.version }}</a> <span class="badge badge-secondary">Total score: {{ beer.score }}</span></h5>
+                    {% else %}
+                        <h5 class="card-title"><a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }}</a> <span class="badge badge-secondary">Total score: {{ beer.score }}</span></h5>
+                    {% endif %}   
+                    {{ beer.brewery }}
+                    <div class="row mb-1">
+                        <div class="col-sm-2">OG: <span class="font-weight-bold">{{ beer.og }}%</span></div>
+                        <div class="col-sm-2">ABV: <span class="font-weight-bold">{{ beer.abv }}%</span></div>
+                        <div class="col-sm-2">IBU: <span class="font-weight-bold">{{ beer.ibu }}</span></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
 {% endblock content %}
 

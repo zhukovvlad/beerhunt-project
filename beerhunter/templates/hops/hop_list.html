@@ -5,9 +5,17 @@
 {% block content %}
     <h2>Hop List</h2>
 
-    <ul>
-        {% for hop in hop_list %}
-            <li><a href="{{ hop.get_absolute_url }}">{{ hop.title }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="container mt-1">
+
+		<ul class="list-group">
+			{% for hop in object_list %}
+    		<li class="list-group-item d-flex justify-content-between align-items-center mb-1">
+                <a href="{{ hop.get_absolute_url }}">
+                    {{ hop }}
+                </a>
+                {{ hop.brewed_beers.count }}
+    		</li>
+    	{% endfor %}
+		</ul>
+	</div>
 {% endblock content %}

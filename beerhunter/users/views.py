@@ -18,8 +18,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print('Context is: ', context)
+        print(f"User id is {context['user'].id}")
         user_beers = Beer.objects.all_with_related_instances_and_score()
-        user_beers = user_beers.filter(hunter=self.request.user.id)
+        # user_beers = user_beers.filter(hunter=self.request.user.id)
+        user_beers = user_beers.filter(hunter=context['user'].id)
         user_beers = user_beers.order_by('-score')
 
         total_score = 0
