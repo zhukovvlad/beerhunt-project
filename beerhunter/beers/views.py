@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 
 from .models import Beer, Vote, BeerComment
@@ -70,9 +70,11 @@ class BeerCreateView(LoginRequiredMixin, CreateView):
 
     fields = [
         'title',
+        'style',
         'description',
-        'brewery',
         'image',
+        'brewery',
+        'hops',
         'og',
         'abv',
         'ibu'

@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
+# from django.core.exceptions import ValidationError
 
-from .models import Beer, Vote, BeerComment
+from .models import Beer, Vote
 
 
 class VoteForm(forms.ModelForm):

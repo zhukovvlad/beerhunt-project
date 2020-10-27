@@ -8,13 +8,10 @@ from model_utils.models import TimeStampedModel
 
 
 class HopManager(models.Manager):
-    def all_with_prefetch_beers(self):
-        qs = self.get_queryset()
-        return qs.prefetch_related('brewed_beers')
-
     def all_with_related_instances_and_score(self):
-        qs = self.all_with_related_instances()
-        qs = qs.annotate(score=Count('beer'))
+        qs = self.get_queryset()
+        qs = qs.prefetch_related('brewed_beers')
+        qs = qs.annotate(score=Count('brewed_beers'))
         return qs
 
 
