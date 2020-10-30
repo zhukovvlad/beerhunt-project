@@ -22,7 +22,7 @@ class HomePageView(TemplateView):
         top_ibu = qs.aggregate(Max('ibu'))
         top_ibu_beer = qs.filter(ibu=top_ibu['ibu__max'])
 
-        qs_hop = Hop.objects.all_with_prefetch_beers().annotate(count_beers=Count('brewed_beers'))
+        qs_hop = Hop.objects.annotate(count_beers=Count('brewed_beers'))
         qs_hop_max = qs_hop.aggregate(Max('count_beers'))
         top_hop = qs_hop.filter(count_beers=qs_hop_max['count_beers__max'])
 

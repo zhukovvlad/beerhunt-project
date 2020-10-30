@@ -8,6 +8,8 @@ from beerhunter.beers.models import Beer
 class BreweryListView(ListView):
     model = Brewery
 
+    context_object_name = "brewery_list"
+
 
 class BreweryDetailView(DetailView):
     model = Brewery
