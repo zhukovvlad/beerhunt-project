@@ -11,6 +11,11 @@ urlpatterns = [
         name='BeerList'
     ),
     path(
+        route='search/',
+        view=views.Search,
+        name="Search"
+    ),
+    path(
         route='add/',
         view=views.BeerCreateView.as_view(),
         name='add'

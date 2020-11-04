@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from .models import Beer, Vote, BeerComment
@@ -140,3 +140,21 @@ class UpdateVote(LoginRequiredMixin, UpdateView):
             kwargs={'pk': beer_id})
         return redirect(
             to=beer_detail_url)
+
+
+def Search(request):
+    if request.method == 'POST':
+        queryset = Beer.objects.all_with_related_instances_and_score()
+
+        for i in queryset:
+            print(i.title)
+        search_item = request.POST['query'].lower()
+        print(f'We are looking for {search_item}')
+        if not search_item:
+            return render(request, 'beers/search_result.html')
+        search_result = [item for item in queryset if search_item in item.title.lower()]
+        return render(request, 'beers/search_result.html', {
+            'entries': search_result
+        })
+    else:
+        return render(request, 'beers/search_result.html')

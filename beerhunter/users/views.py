@@ -20,6 +20,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         print('Context is: ', context)
         print(f"User id is {context['user'].id}")
+        print(f"User permissions are {context['user'].user_permissions.all()}")
         user_beers = Beer.objects.all_with_related_instances_and_score()
         # user_beers = user_beers.filter(hunter=self.request.user.id)
         user_beers = user_beers.filter(hunter=context['user'].id)

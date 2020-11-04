@@ -63,7 +63,12 @@
               <a class="nav-link" href="{% url 'hops:HopList' %}">Hops</a>
             </li>
           </ul>
-          <ul class="navbar-nav ml-auto"> 
+          <ul class="navbar-nav ml-auto">
+            <form class="form-inline" action="{% url 'beer:Search' %}" method="post">
+              {% csrf_token %}
+              <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search beer, brewery or hop" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}

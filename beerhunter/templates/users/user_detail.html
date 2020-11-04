@@ -40,31 +40,45 @@
 </div>
 
 <p>Welcome {{ user }}.</p>
-    {% if not total_count %}
-        <h3>You added no beer yet. Just do it!</h3>
-    {% else %}
-        <h3>You added {{ total_count }} beers with total score {{ total_score }}.</h3>
-    {% endif %}
-    <div class="row">
-        {% for beer in user_beers %}
-            <div class="card col-sm-6">
-                <!--<img src="{{beer.image.url}}" class="card-img-top" alt="{{ beer }}">-->
-                <div class="card-body">
-                    {% if beer.version %}
-                        <h5 class="card-title"><a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }} - {{ beer.version }}</a> <span class="badge badge-secondary">Total score: {{ beer.score }}</span></h5>
-                    {% else %}
-                        <h5 class="card-title"><a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }}</a> <span class="badge badge-secondary">Total score: {{ beer.score }}</span></h5>
-                    {% endif %}   
-                    {{ beer.brewery }}
-                    <div class="row mb-1">
-                        <div class="col-sm-2">OG: <span class="font-weight-bold">{{ beer.og }}%</span></div>
-                        <div class="col-sm-2">ABV: <span class="font-weight-bold">{{ beer.abv }}%</span></div>
-                        <div class="col-sm-2">IBU: <span class="font-weight-bold">{{ beer.ibu }}</span></div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+  <div class="card-deck">
+    <div class="card border-light bg-light mb-3" style="max-width: 18rem;">
+      <h5 class="card-header">Your status</h5>
+      <div class="card-body">
+        <p class="card-text">Noob</p>
+      </div>
     </div>
+    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+      <div class="card-header">Header</div>
+      <div class="card-body">
+        <p class="card-text">Some</p>
+      </div>
+    </div>
+  </div>
+  {% if not total_count %}
+      <h3>You added no beer yet. Just do it!</h3>
+  {% else %}
+      <h3>You added {{ total_count }} beers with total score {{ total_score }}.</h3>
+  {% endif %}
+  <div class="row">
+      {% for beer in user_beers %}
+          <div class="card col-sm-6">
+              <!--<img src="{{beer.image.url}}" class="card-img-top" alt="{{ beer }}">-->
+              <div class="card-body">
+                  {% if beer.version %}
+                      <h5 class="card-title"><a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }} - {{ beer.version }}</a> <span class="badge badge-secondary">Total score: {{ beer.score }}</span></h5>
+                  {% else %}
+                      <h5 class="card-title"><a href="{{ beer.get_absolute_url }}">{{ beer.title_for_render }}</a> <span class="badge badge-secondary">Total score: {{ beer.score }}</span></h5>
+                  {% endif %}   
+                  {{ beer.brewery }}
+                  <div class="row mb-1">
+                      <div class="col-sm-2">OG: <span class="font-weight-bold">{{ beer.og }}%</span></div>
+                      <div class="col-sm-2">ABV: <span class="font-weight-bold">{{ beer.abv }}%</span></div>
+                      <div class="col-sm-2">IBU: <span class="font-weight-bold">{{ beer.ibu }}</span></div>
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+  </div>
 {% else %}
   {% if not total_count %}
     <p>This user added no beer yet.</p>
